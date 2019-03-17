@@ -2,12 +2,60 @@
 
 Canine is a simple series of webpages used to demonstrate the howling success of the Hound testing tool.
 
-## Dependencies
+## Puppy Steps
 
-Add Hound as a dependency in `mix.exs`:
+First we create a simple Phoenix called Canine.
+
+```
+> mix phx.new canine --no-ecto
+```
+
+Then add Hound as a dependency in `mix.exs`.
 
 ```
 {:hound, "~> 1.0", only: :test}
+```
+
+Hound requires a webdriver for browser automation. For this app we will use selenium. Install and run:
+
+```
+> brew install selenium-server-standalone
+> selenium-server
+```
+
+Hound requires a few additions to the code. In `test/test_helpers.exs` replace:
+
+```
+ExUnit.start()
+```
+
+with 
+
+
+```
+Application.ensure_all_started(:hound)
+ExUnit.start()
+```
+
+
+In `config/test.exs` add:
+
+```
+config :hound, browser: "chrome"
+```
+
+And in the same file, set `server` to true: 
+
+```
+config :canine, CanineWeb.Endpoint,
+  http: [port: 4001],
+  server: true
+```
+
+Hound can be used as a part of ExUnit tests:
+
+```
+> mix test
 ```
 
 ## Go get 'em!
