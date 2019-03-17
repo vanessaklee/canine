@@ -1,0 +1,47 @@
+<!-- Header -->
+<header class="masthead">
+  <p class="alert alert-info" id="form-flash" role="alert"><%= get_flash(@conn, :error) %></p>
+  <div class="container text-center">
+    <h1 class="welcome">Bow! Wow!</h1>
+    <h2 class="intro">
+      <em>We are going to the <%= @place %>!</em>
+      <em id="place-phrase"><%= @place_phrase %></em>
+    </h2>
+    <br>
+    <p>
+      Do you want the secret password for our VIP Dog Club in the middle of the <%= @place %>?<br>
+      Answer a few questions, and we'll tell you<br>if you qualify.
+    </p>
+    <hr style="height: 10px;">
+    <%= form_for @conn, page_path(@conn, :secret), [as: :answers], fn f -> %>
+      <%= hidden_input f, :place, value: @place %>
+
+      <label for="treat">What is your favorite treat?
+      <%= select f, :treat, @treats, id: "input-treat", class: "form-control" %>
+      <%= error_tag f, :treat %>
+      </label>
+      <br>
+      <label for="name">What is your name?
+      <%= text_input f, :name, id: "input-name", class: "form-control" %>
+      <%= error_tag f, :name %>
+      </label>
+      <br>
+      </label>
+      
+      <label for="color">What color are you, mostly?<br>
+      <div class="inner-container">
+        <%= radio_button f, :color, :black %>Black<br>
+        <%= radio_button f, :color, :brown %>Brown<br>
+        <%= radio_button f, :color, :yellow %>Yellow<br>
+        <%= radio_button f, :color, :white %>White<br>
+        <%= radio_button f, :color, :red %>Red<br>
+        <%= radio_button f, :color, :other %>Other<br>
+      </label>
+      </div>
+      <%= error_tag f, :color %>
+
+      <input type="submit" id="submit_answers" value="Check me out!" class="btn btn-primary btn-xl btn-dark"/><br>
+    <% end %>
+  </div>
+</header>
+

@@ -1,0 +1,102 @@
+/*!
+ * Canine specific css
+ */
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  font-size: 28px !important;
+}
+
+body {
+  font-family: 'Titillium Web' !important; 
+  background-color: #DD3D31 !important;
+}
+
+input[type='radio'] { 
+  transform: scale(2); 
+  margin-right: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.content-section {
+  padding-top: 7.5rem;
+  padding-bottom: 7.5rem;
+}
+
+.content-section-heading h2 {
+  font-size: 3rem;
+}
+
+.masthead {
+  min-height: 30rem;
+  position: relative;
+  display: table;
+  width: 100%;
+  height: 65vh !important;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background: rgba(234, 184, 33);
+  background-size: cover;
+}
+
+.masthead h1 {
+  font-size: 4rem;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 992px) {
+  .masthead {
+    height: 100vh;
+  }
+  .masthead h1 {
+    font-size: 4rem;
+  }
+}
+
+.inner-container {
+  margin: auto;
+  width: 40%;
+  padding: 10px;
+  text-align: left;
+}
+
+.btn-primary {
+  background-color: #1D809F !important;
+  border-color: #1D809F !important;
+  color: #fff !important;
+  margin-top: 20px;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: #155d74 !important;
+  border-color: #155d74 !important;
+}
+
+.btn-xl {
+  padding: .75rem .75rem !important;
+}
+
+.btn-dark {
+  color: #fff !important;
+}
+
+.btn {
+  -webkit-box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1);
+  font-weight: 200;
+  font-size: 28px !important;
+}
+
+.inputfield {
+  width: 250px !important;
+}
+
+.secret_password {
+  color: #DD3D31 !important;
+  font-style: oblique;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
