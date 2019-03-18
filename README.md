@@ -50,17 +50,20 @@ config :canine, CanineWeb.Endpoint,
   server: true
 ```
 
-Start your Phoenix server
+Start the Phoenix server
 
-  * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with a REGION value from the list ["northeast", "midwest", "south", "west"]
-    * Elixir: `REGION=midwest mix phx.server`
-    * Interactive elixir: `REGION=midwest iex -S mix phx.server`
+  * install dependencies with `mix deps.get`
+  * install Node.js dependencies with `cd assets && npm install`
+  * start Phoenix endpoint with a REGION value from the list ["northeast", "midwest", "south", "west"]
+    * elixir: `REGION=midwest mix phx.server`
+    * interactive elixir: `REGION=midwest iex -S mix phx.server`
+  * visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Run tests (in this demo app, Hound is used as a part of ExUnit tests) 
 
-Hound can be used as a part of ExUnit tests and run with `mix test`.
+```
+mix test
+```
 
 ## Lab-ra-cadabra!
 
@@ -78,7 +81,7 @@ The acceptance tests live in `test/canine_web/acceptance/` and use `test/support
   - test_helper.exs
 ```
 
-#### Simplest test `welcome_test.exs`
+#### Simple `welcome_test.exs`
   
   * [navigate_to/2][navigate_to]
     * navigates to a url or relative path
@@ -89,7 +92,7 @@ The acceptance tests live in `test/canine_web/acceptance/` and use `test/support
   * [page_title/0][page_title]
     * gets the title of the current page
 
-#### More complex test `region_test.exs` 
+#### Complex `region_test.exs` 
 
   * sets [Metadata][metadata] in Hound session 
   * uses [change_session_to/2][change_session_to] to use multiple browser sessions for permutations
@@ -99,7 +102,7 @@ The acceptance tests live in `test/canine_web/acceptance/` and use `test/support
   * [current_url/0][current_url]
     * gets url of the current page
 
-#### Advanced test `form_test.exs` 
+#### More Complex `form_test.exs` 
   
   * uses [execute_script/2][execute_script] to select value from a select list
     * executes javascripts 
@@ -122,7 +125,7 @@ The acceptance tests live in `test/canine_web/acceptance/` and use `test/support
 [change_session_to]: https://hexdocs.pm/hound/Hound.Helpers.Session.html#change_session_to/2
 [take_screenshot]: https://hexdocs.pm/hound/Hound.Helpers.Screenshot.html#take_screenshot/1
 
-### Notes on Region and Metadata
+### Notes on Metadata
 
 To highlight Hound's [Metadata][metadata], Canine uses a Plug called `Regionalize` for set regional vernacular. If this were a real app, this value would be part of an authentication process, but since this is a demo app for testing purposes, we aren't going to worry about the prod environment. We will use `Application.get_env("REGION")`.
 
