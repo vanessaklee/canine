@@ -23,14 +23,7 @@ Hound requires a webdriver for browser automation. For this app we will use sele
 > selenium-server
 ```
 
-Hound requires a few additions to the code. In `test/test_helpers.exs` replace:
-
-```
-ExUnit.start()
-```
-
-with 
-
+Hound requires a few additions to the code. In `test/test_helpers.exs` add this above `ExUnit.start()`
 
 ```
 Application.ensure_all_started(:hound)
@@ -50,7 +43,7 @@ config :hound, browser: "chrome"
 config :canine, region: System.get_env("REGION")
 ```
 
-In the same file, set `server` to true: 
+and also set `server` to true: 
 
 ```
 config :canine, CanineWeb.Endpoint,
@@ -58,7 +51,7 @@ config :canine, CanineWeb.Endpoint,
   server: true
 ```
 
-Hound can be used as a part of ExUnit tests and can be run with `mix test`.
+Hound can be used as a part of ExUnit tests and run with `mix test`.
 
 ## Sic 'em!
 
@@ -86,7 +79,7 @@ If the metadata is not found, the test session will fail and alert you with an e
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Hound can be used as a part of ExUnit tests and can be run with `mix test`.
+Hound can be used as a part of ExUnit tests and run with `mix test`.
 
 ## Best in Show
 
