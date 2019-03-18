@@ -60,15 +60,14 @@ config :canine, CanineWeb.Endpoint,
 
 Hound can be used as a part of ExUnit tests and can be run with `mix test`.
 
-## Go get 'em!
+## Sic 'em!
 
 Canine uses a Plug called `Regionalize` for set regional vernacular. If this were a real app, this value would be part of an authentication process, but since this is a demo app for testing purposes, we will use `Application.get_env("REGION")`.
 
-### MIX_ENV=dev
-
+**MIX_ENV=dev**
 In the dev environment, `Application.get_env("REGION")` is from an entry in `config/dev.exs` that uses `System.get_evn("REGION")` to grab the "REGION" value from the shell. If a "REGION" is not found, the user is sent to a non-functional signup page.
 
-### MIX_ENV=test
+**MIX_ENV=test**
 
 In the test environment, `Application.get_env("REGION")` is from Hound's metadata. Metadata parameters are set like this:
 
