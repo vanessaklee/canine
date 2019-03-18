@@ -88,7 +88,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Hound can be used as a part of ExUnit tests and can be run with `mix test`.
 
-## Dig Deep
+## Best in Show
 
 Let's take a walk through the test design and set up. First, here is the structure of the test files pertinent to this talk:
 
