@@ -29,13 +29,13 @@ defmodule CanineWeb.FormTest do
       names = ["Spot", "King Kong", "D0ris D4y*"]
 
       for color <- colors() do
-        for treat <- treats() do
+        for treat <- good_treats() do
           for name <- names do
             Hound.Helpers.Session.change_session_to(treat<>name<>color, metadata: %{region: default_region()}) 
 
             submit_test_form(treat, name, color)
 
-            take_screenshot(treat<>String.slice(name, 0..2)<>color<>".png")
+            # take_screenshot(treat<>String.slice(name, 0..2)<>color<>".png")
 
             # Verify number of barks
             expected_bark = Logic.secretize(:n, name)
@@ -49,7 +49,7 @@ defmodule CanineWeb.FormTest do
             password_text = visible_text(password_element)
             assert password_text == expected_password
             
-            Hound.end_session
+            # Hound.end_session
           end
         end
       end

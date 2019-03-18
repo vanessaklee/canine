@@ -30,6 +30,7 @@ defmodule Canine.Constants do
 
   def places, do: @places
   def treats, do: @treats
+  def good_treats, do: @treats |> List.delete("other")
   def colors, do: @colors
   def regions, do: @regions
 

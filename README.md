@@ -147,7 +147,7 @@ More specifics on the possitilities of Hound can be found below.
 [je]: http://hexdocs.pm/hound/Hound.Helpers.ScriptExecution.html
 [ss]: http://hexdocs.pm/hound/Hound.Helpers.Screenshot.html
 
-## Puppy School
+## Go Fetch!
 
   * Official website: http://www.phoenixframework.org/
   * Guides: http://phoenixframework.org/docs/overview
