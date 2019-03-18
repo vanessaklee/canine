@@ -64,9 +64,21 @@ Hound can be used as a part of ExUnit tests and run with `mix test`.
 
 ## Lab-ra-cadabra!
 
-The acceptance tests live in `test/canine_web/acceptance/` and use `test/support/acceptance_case.exs`, an `ExUnit.CaseTemplate`.
+The acceptance tests live in `test/canine_web/acceptance/` and use `test/support/acceptance_case.exs`, an `ExUnit.CaseTemplate`. 
 
-The simplest test is `welcome_test.exs`. It demonstrates these Hound.Helpers:
+```
+- test/
+  - canine_web/
+    - acceptance/
+      - form_test.exs
+      - region_test.exs
+      - welcome_test.exs
+  - support/
+    - acceptance_case.ex
+  - test_helper.exs
+```
+
+#### Simplest test `welcome_test.exs`
   
   * [navigate_to/2][navigate_to]
     * navigates to a url or relative path
@@ -77,16 +89,17 @@ The simplest test is `welcome_test.exs`. It demonstrates these Hound.Helpers:
   * [page_title/0][page_title]
     * gets the title of the current page
 
-The more complex test inputs form data and metadata: `region_test.exs`. It demonstrates:
+#### More complex test `region_test.exs` 
 
-  * multiple browser sessions
+  * sets [Metadata][metadata] in Hound session 
+  * uses [change_session_to/2][change_session_to] to use multiple browser sessions for permutations
   * the `:xpath` strategy 
   * [click/1][click]
     * clicks on an element
   * [current_url/0][current_url]
     * gets url of the current page
 
-The advanced test is `form_test.exs`. It demonstrates:
+#### Advanced test `form_test.exs` 
   
   * uses [execute_script/2][execute_script] to select value from a select list
     * executes javascripts 
@@ -105,12 +118,13 @@ The advanced test is `form_test.exs`. It demonstrates:
 [current_url]: https://hexdocs.pm/hound/Hound.Helpers.Navigation.html#current_url/0
 [execute_script]: https://hexdocs.pm/hound/Hound.Helpers.ScriptExecution.html#execute_script/2
 [fill_field]: https://hexdocs.pm/hound/Hound.Helpers.Element.html#fill_field/2
+[metadata]: https://hexdocs.pm/hound/Hound.Metadata.html
 [change_session_to]: https://hexdocs.pm/hound/Hound.Helpers.Session.html#change_session_to/2
 [take_screenshot]: https://hexdocs.pm/hound/Hound.Helpers.Screenshot.html#take_screenshot/1
 
-### Show off: Metadata
+### Notes on Region and Metadata
 
-Canine uses a Plug called `Regionalize` for set regional vernacular. If this were a real app, this value would be part of an authentication process, but since this is a demo app for testing purposes, we aren't going to worry about the prod environment. We will use `Application.get_env("REGION")`.
+To highlight Hound's [Metadata][metadata], Canine uses a Plug called `Regionalize` for set regional vernacular. If this were a real app, this value would be part of an authentication process, but since this is a demo app for testing purposes, we aren't going to worry about the prod environment. We will use `Application.get_env("REGION")`.
 
 **MIX_ENV=dev**: In the dev environment, `Application.get_env("REGION")` is from an entry in `config/dev.exs` that uses `System.get_evn("REGION")` to grab the "REGION" value from the shell. If a "REGION" is not found, the user is sent to a non-functional signup page.
 
@@ -123,23 +137,6 @@ Hound.start_session(metadata: %{region: "northeast"})
 If the metadata is not found, the test session will fail and alert you with an error.
 
 `** (RuntimeError) could not find a session for process #PID<X.XXX.X>`
-
-
-## Best in Show
-
-Structure of pertitent files.
-
-```
-- test/
-  - canine_web/
-    - acceptance/
-      - form_test.exs
-      - region_test.exs
-      - welcome_test.exs
-  - support/
-    - acceptance_case.ex
-  - test_helper.exs
-```
 
 
 ## Go Fetch!
