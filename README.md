@@ -50,7 +50,7 @@ config :canine, CanineWeb.Endpoint,
   server: true
 ```
 
-### Start your Phoenix server
+Start your Phoenix server
 
   * Install dependencies with `mix deps.get`
   * Install Node.js dependencies with `cd assets && npm install`
@@ -62,7 +62,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Hound can be used as a part of ExUnit tests and run with `mix test`.
 
-## Lab-racadabra!
+## Lab-ra-cadabra!
 
 The acceptance tests live in `test/canine_web/acceptance/` and use `test/support/acceptance_case.exs`, an `ExUnit.CaseTemplate`.
 
@@ -97,16 +97,16 @@ The advanced test is `form_test.exs`. It demonstrates:
     * takes a screenshot of the current page
   * slow down tests with `:timer.sleep()`
 
-[navigate_to] https://hexdocs.pm/hound/Hound.Helpers.Navigation.html#navigate_to/2
-[find_element] https://hexdocs.pm/hound/Hound.Helpers.Page.html#find_element/3
-[visible_text] https://hexdocs.pm/hound/Hound.Helpers.Element.html#visible_text/1
-[page_title] https://hexdocs.pm/hound/Hound.Helpers.Page.html#page_title/0
-[click] https://hexdocs.pm/hound/Hound.Helpers.Element.html#click/1
-[current_url] https://hexdocs.pm/hound/Hound.Helpers.Navigation.html#current_url/0
-[execute_script] https://hexdocs.pm/hound/Hound.Helpers.ScriptExecution.html#execute_script/2
-[fill_field] https://hexdocs.pm/hound/Hound.Helpers.Element.html#fill_field/2
-[change_session_to] https://hexdocs.pm/hound/Hound.Helpers.Session.html#change_session_to/2
-[take_screenshot] https://hexdocs.pm/hound/Hound.Helpers.Screenshot.html#take_screenshot/1
+[navigate_to]: https://hexdocs.pm/hound/Hound.Helpers.Navigation.html#navigate_to/2
+[find_element]: https://hexdocs.pm/hound/Hound.Helpers.Page.html#find_element/3
+[visible_text]: https://hexdocs.pm/hound/Hound.Helpers.Element.html#visible_text/1
+[page_title]: https://hexdocs.pm/hound/Hound.Helpers.Page.html#page_title/0
+[click]: https://hexdocs.pm/hound/Hound.Helpers.Element.html#click/1
+[current_url]: https://hexdocs.pm/hound/Hound.Helpers.Navigation.html#current_url/0
+[execute_script]: https://hexdocs.pm/hound/Hound.Helpers.ScriptExecution.html#execute_script/2
+[fill_field]: https://hexdocs.pm/hound/Hound.Helpers.Element.html#fill_field/2
+[change_session_to]: https://hexdocs.pm/hound/Hound.Helpers.Session.html#change_session_to/2
+[take_screenshot]: https://hexdocs.pm/hound/Hound.Helpers.Screenshot.html#take_screenshot/1
 
 ### Show off: Metadata
 
