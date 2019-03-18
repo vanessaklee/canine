@@ -2,6 +2,8 @@
 
 Canine is a simple series of webpages used to demonstrate the howling success of the Hound testing tool.
 
+Whatever you call it, UI testing/End-to-End Testing/End-to-User Testing/Acceptance Testing--it is often an intensely manual and time-consuming process. Hound carries some of the load through browser automation. Browser automations means that I can automate my user interactions — clicks, fill inputs, file uploads, selecting options, radio buttons, etc. I use this app to demonstrate an overview of Hound and it’s helpers, as well as an example of how Hound tests saved me days of manual end-user testing. 
+
 ## Bone Simple Set-up
 
 Create a simple Phoenix called Canine.
