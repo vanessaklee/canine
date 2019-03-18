@@ -2,8 +2,9 @@
 <header class="masthead">
   <div class="container text-center">
     <h1 class="welcome">Bow! Wow!</h1>
+
     <h2 class="intro">
-      <em>Welcome to Canine:<br>the perfect spot to take Hound for a walk.</em>
+      <em><span id="regional-greeting"><%= @greeting %></span> Welcome to Canine,<br>the perfect spot to take Hound for a walk.</em>
     </h2>
     <br>
     <p>
@@ -12,9 +13,13 @@
     
     <%= form_for @conn, page_path(@conn, :form), [as: :whereto], fn f -> %>
       <div class="inner-container">
-        <%= radio_button f, :place, "park", id: "input-park", checked: true%>The Park<br>
-        <%= radio_button f, :place, "woods", id: "input-woods" %>The Woods<br>
-        <%= radio_button f, :place, "city", id: "input-city" %>The City<br>
+        <%= for {p,i} <- Enum.with_index(@places) do %>
+          <%= if i == 0 do %>
+            <%= radio_button f, :place, p, id: "input-"<>p, checked: true %>The <%= p%><br>
+          <% else %>
+            <%= radio_button f, :place, p, id: "input-"<>p%>The <%= p%><br>
+          <% end %>
+        <% end %>
       </div>
       <input type="submit" id="submit_whereto" value="Let's go!" class="btn btn-primary btn-xl btn-dark"/><br>
     <% end %>

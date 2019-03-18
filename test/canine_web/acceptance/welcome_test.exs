@@ -1,73 +1,27 @@
-defmodule HoundTest do
+defmodule CanineWeb.WelcomeTest do
   @moduledoc """
   Tests for the welcome page.
   """
-
-  use ExUnit.Case
-  use Hound.Helpers
-  import CanineWeb.Router.Helpers
-  import CanineWeb.TestHelpers
-
-  @page_url page_url(CanineWeb.Endpoint, :index)
-  @form_url user_url(CanineWeb.Endpoint, :form)
-
+  use Canine.AcceptanceCase, async: true
+  
   setup do
-    Hound.start_session(metadata: metadata) # move into tests when metadata needs to change
+    Hound.start_session(metadata: %{region: nil}) 
     :ok
   end
 
+  @doc """
+  This test will send the user to the sign up age because no region has been set in the metadata
+  """
   describe "welcomepage" do
-    test "Welcome page loads successfully", _meta do
-      navigate_to(@page_url)
+    test "Welcome page loads correctly", _meta do
+      navigate_to(@index_url)
+
+      element = find_element(:id, "welcome")
+      text = visible_text(element)
+
       assert page_title() == "Bow! Wow!"
+      assert text == "Bad Dog!"
     end
   end
 
-  describe "good form" do
-    test "successfull form submission", _meta do
-      navigate_to(@form_url)
-
-      element = find_element(:link_text, "Register")
-      element |> click()
-
-      name = find_element(:xpath, ~s|//*[@id="user_name"]|)
-      name |> fill_field("Meraj")
-
-      username = find_element(:xpath, ~s|//*[@id="user_username"]|)
-      username |> fill_field("meraj")
-
-      password = find_element(:xpath, ~s|//*[@id="user_password"]|)
-      password |> fill_field("password")
-
-      submit = find_element(:xpath, ~s|/html/body/div/main/form/div[4]/button|)
-      submit |> click()
-
-      assert current_url() == @user_url
-      assert page_source() =~ "Listing Users"
-      assert page_source() =~ "meraj"
-    end
-  end
-
-  describe "bad form" do
-    test "failed form", _meta do
-      user = insert_user()
-      navigate_to(@page_url)
-
-      element = find_element(:link_text, "Log In")
-      element |> click()
-
-      username = find_element(:xpath, ~s|//*[@id="session_username"]|)
-      username |> fill_field(user.name)
-
-      password = find_element(:xpath, ~s|//*[@id="session_password"]|)
-      password |> fill_field(user.password)
-
-      submit = find_element(:xpath, ~s|/html/body/div/main/form/button|)
-      submit |> click()
-
-      assert current_url() == @user_url
-      assert page_source() =~ "Listing Users"
-      assert page_source() =~ "meraj"
-    end
-  end
 end

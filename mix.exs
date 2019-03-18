@@ -36,7 +36,7 @@ defmodule Canine.Mixfile do
       {:plug_cowboy, "~> 1.0"},
       {:ex_doc, "~> 0.19", only: :dev},
       {:excoveralls, "~> 0.9.2", only: :test},
-      {:hound, "~> 1.0", only: :test},
+      {:hound, "~> 1.0"},
     ]
   end
 end

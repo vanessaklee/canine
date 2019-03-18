@@ -1,8 +1,11 @@
 defmodule CanineWeb.Router do
   use CanineWeb, :router
 
+  import CanineWeb.Plug.Regionalize
+
   pipeline :browser do
     plug :accepts, ["html"]
+    plug :regionalize
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery

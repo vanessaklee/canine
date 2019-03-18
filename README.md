@@ -13,7 +13,7 @@ First we create a simple Phoenix called Canine.
 Then add Hound as a dependency in `mix.exs`.
 
 ```
-{:hound, "~> 1.0", only: :test}
+{:hound, "~> 1.0"}
 ```
 
 Hound requires a webdriver for browser automation. For this app we will use selenium. Install and run:
@@ -37,14 +37,20 @@ Application.ensure_all_started(:hound)
 ExUnit.start()
 ```
 
+In `config/dev.exs` add:
+
+```
+config :canine, region: System.get_env("REGION")
+```
 
 In `config/test.exs` add:
 
 ```
 config :hound, browser: "chrome"
+config :canine, region: System.get_env("REGION")
 ```
 
-And in the same file, set `server` to true: 
+In the same file, set `server` to true: 
 
 ```
 config :canine, CanineWeb.Endpoint,
@@ -52,23 +58,94 @@ config :canine, CanineWeb.Endpoint,
   server: true
 ```
 
-Hound can be used as a part of ExUnit tests:
-
-```
-> mix test
-```
+Hound can be used as a part of ExUnit tests and can be run with `mix test`.
 
 ## Go get 'em!
 
-To start your Phoenix server:
+Canine uses a Plug called `Regionalize` for set regional vernacular. If this were a real app, this value would be part of an authentication process, but since this is a demo app for testing purposes, we will use `Application.get_env("REGION")`.
+
+### MIX_ENV=dev
+
+In the dev environment, `Application.get_env("REGION")` is from an entry in `config/dev.exs` that uses `System.get_evn("REGION")` to grab the "REGION" value from the shell. If a "REGION" is not found, the user is sent to a non-functional signup page.
+
+### MIX_ENV=test
+
+In the test environment, `Application.get_env("REGION")` is from Hound's metadata. Metadata parameters are set like this:
+
+```
+Hound.start_session(metadata: %{region: "northeast"})
+```
+
+If the metadata is not found, the test session will fail and alert you with an error.
+
+`** (RuntimeError) could not find a session for process #PID<X.XXX.X>`
+
+### Accepted Regions
+
+- northeast
+- midwest
+- south
+- west
+
+### Start your Phoenix server
 
   * Install dependencies with `mix deps.get`
   * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+  * Start Phoenix endpoint with a REGION value from the list ["northeast", "midwest", "south", "west"]
+    * Elixir: `REGION=midwest mix phx.server`
+    * Interactive elixir: `REGION=midwest iex -S mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+Hound can be used as a part of ExUnit tests and can be run with `mix test`.
+
+## Dig Deep
+
+Let's take a walk through the test design and set up. First, here is the structure of the test files pertinent to this talk:
+
+```
+- test/
+  - canine_web/
+    - acceptance/
+      - form_test.exs
+      - region_test.exs
+      - welcome_test.exs
+    - controllers/
+      - page_controller_test.exs
+  - support/
+    - acceptance_case.ex
+  - test_helper.exs
+```
+
+A few housekeeping item:
+
+  * Controller tests will fail without the Region `test/controllers/page_controller_test.exx`
+  * Canine.AcceptanceCase uses `ExUnit.CaseTemplate`; see `support/acceptance_case.exs`
+
+Now we take it one step at a time from a simple test to more advance tests in this order:
+
+  * welcome_test.exs
+  * region_test.exs
+    * Note multiple browser sessions at work to cover all possible Regions
+    * Note regex selector for Hound Element Helper
+  * form_test.exs
+    * Note multiple browser sessions at work to cover combinations
+    * Note javascript execution
+    * Note the screenshot
+
+More specifics on the possitilities of Hound can be found below.
+
+  * Hound [Helpers][helpers], in particular 
+    * Hound [Navigation][nav] Helpers
+    * Hound [Element][el] Helpers
+    * Hound [Javascript Execution][je] Helpers
+    * Hound [Screenshot][ss] Helpers
+
+[helpers]: https://hexdocs.pm/hound/readme.html#helpers
+[nav]: http://hexdocs.pm/hound/Hound.Helpers.Navigation.html
+[el]: http://hexdocs.pm/hound/Hound.Helpers.Element.html
+[je]: http://hexdocs.pm/hound/Hound.Helpers.ScriptExecution.html
+[ss]: http://hexdocs.pm/hound/Hound.Helpers.Screenshot.html
 
 ## Puppy School
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bow! Wow!</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+  
+  </head>
+
+  <body>
+        <header class="masthead">
+          <div class="container text-center">
+            <h1 class="welcome" id="welcome">Bad Dog!</h1>
+
+            <h2 class="intro">
+              <em>You are not registered with Canine. Be a good dog and ask your human to register you.</em>
+            </h2>
+          </div>
+        </header>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
+
+
