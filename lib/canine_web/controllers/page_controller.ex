@@ -5,7 +5,7 @@ defmodule CanineWeb.PageController do
   import Canine.Constants
 
   def index(conn, _params) do
-    greeting = regional_greeting(conn.assigns[:region])
+    greeting = Map.get(regional_greetings(), conn.assigns[:region])
     render conn, "index.html", greeting: greeting, places: places()
   end
 

@@ -9,9 +9,10 @@ defmodule CanineWeb.FormTest do
 
   ## Validate secretization 
   
-  - `Treat` will match it value in the `treats` map
-  - `Name` will turn into a stringified number representing its length with spaces removed preceded by a "#" 
-  - `Color` will match a concatentation with space in-between of its value in the `color_nouns` & `color_adj` maps
+  - `Treat` will match value in the `treats` map
+  - `Name` will become its length (w/ spaces removed) as a string preceded by "#" 
+  - `Color` will match a concatentation with space in-between of 
+    value in `color_nouns` & `color_adj` maps
 
   """
   use Canine.AcceptanceCase, async: false
@@ -19,65 +20,65 @@ defmodule CanineWeb.FormTest do
 
   @moduletag timeout: 120000
 
-  @doc """
-  This test will loop over the different input combinations to check the processed outcome.
-  """
   describe "form" do
-    test "good form submissions", _meta do
+    test "single combination of good inputs results in granting of password", _meta do
       Hound.start_session(metadata: %{region: default_region()})
       
-      names = ["Spot", "King Kong", "D0ris D4y*"]
-
-      for color <- colors() do
-        for treat <- good_treats() do
-          for name <- names do
-            Hound.Helpers.Session.change_session_to(treat<>name<>color, metadata: %{region: default_region()}) 
-
-            submit_test_form(treat, name, color)
-
-            # take_screenshot(treat<>String.slice(name, 0..2)<>color<>".png")
-
-            # Verify number of barks
-            expected_bark = Logic.secretize(:n, name)
-            bark_element = find_element(:id, "bark")
-            bark_text = visible_text(bark_element)
-            assert bark_text == expected_bark
-
-            # Verify password
-            expected_password = Logic.secretize(:t, treat) <> " " <> Logic.secretize(:c, color)
-            password_element = find_element(:id, "password")
-            password_text = visible_text(password_element)
-            assert password_text == expected_password
-            
-            # Hound.end_session
-          end
-        end
-      end
-
-      Hound.end_session
-    end
-
-    test "bad treat submission", _meta do
-      Hound.start_session(metadata: %{region: default_region()})
-      
-      treat = "other"
+      treat = "bacon"
       color = "red"
-      name = "Rover"
+      name = "Rover" 
 
-      Hound.Helpers.Session.change_session_to(treat<>name<>color, metadata: %{region: default_region()}) 
+      fill_and_submit(treat, name, color)
 
-      submit_test_form(treat, name, color)
+      expected_barks = Logic.secretize(:n, name)
+      expected_password = Logic.secretize(:t, treat) <> " " <> Logic.secretize(:c, color)
 
-      # Verify failure
-      expected_error = failure_message()
-      error_element = find_element(:id, "error")
-      error_text = visible_text(error_element)
-      assert error_text == expected_error
+      bark_text = find_element(:id, "bark")
+        |> visible_text()
+      
+      password_text =   find_element(:id, "password")
+      |> visible_text()
 
+      assert bark_text == expected_barks
+      assert password_text == expected_password
+      
       Hound.end_session
     end
 
-    test "missing name submission", _meta do
+    # DEMO uncomment to demo change_session_to
+    # test "all permutations of good inputs result in granting of password", _meta do
+    #   Hound.start_session(metadata: %{region: default_region()})
+      
+    #   names = ["Spot", "King Kong", "D0ris D4y*"]
+
+    #   for color <- colors() do
+    #     for treat <- good_treats() do
+    #       for name <- names do
+    #         Hound.Helpers.Session.change_session_to(treat<>name<>color, metadata: %{region: default_region()}) 
+
+    #         fill_and_submit(treat, name, color)
+
+    #         expected_barks = Logic.secretize(:n, name)
+    #         expected_password = Logic.secretize(:t, treat) <> " " <> Logic.secretize(:c, color)
+
+    #         bark_text = find_element(:id, "bark")
+    #           |> visible_text()
+            
+    #         password_text =   find_element(:id, "password")
+    #           |> visible_text()
+
+    #         assert bark_text == expected_barks
+    #         assert password_text == expected_password
+            
+    #         Hound.end_session
+    #       end
+    #     end
+    #   end
+
+    #   Hound.end_session
+    # end
+
+    test "missing data results in flash alert", _meta do
       Hound.start_session(metadata: %{region: default_region()})
 
       treat = "bacon"
@@ -86,49 +87,76 @@ defmodule CanineWeb.FormTest do
       
       Hound.Helpers.Session.change_session_to(:missingname, metadata: %{region: default_region()}) 
 
-      submit_test_form(treat, name, color)
+      fill_and_submit(treat, name, color)
 
-      # Verify error is showing
-      expected_error = "Enter your name."
-      error_element = find_element(:id, "form-flash")
-      error_text = visible_text(error_element)
-      assert error_text =~ expected_error 
+      expected = "Enter your name."
+      text = find_element(:id, "form-flash")
+        |> visible_text()
+
+      assert text =~ expected
+
+      Hound.end_session
+    end
+
+    test "certain input results in denial of password", _meta do
+      # TODO test bad name (from bad_names())
+      Hound.start_session(metadata: %{region: default_region()})
+      
+      treat = "other"
+      color = "red"
+      name = "Rover"
+
+      Hound.Helpers.Session.change_session_to(treat<>name<>color, metadata: %{region: default_region()}) 
+
+      fill_and_submit(treat, name, color)
+
+      expected = failure_message()
+      text = find_element(:id, "error")
+        |> visible_text()
+
+      assert text == expected
+
+      # DEMO uncomment to demo take_screenshot
+      # take_screenshot(treat<>String.slice(name, 0..2)<>color<>".png")
 
       Hound.end_session
     end
   end
 
-  def submit_test_form(treat, name, color) do
-    # Start at the welcome page and submit that form first
-    submit_place_form(default_place())
+  ################## Test Functions ################## 
 
-    assert current_url() == @form_url
+  @doc """
+  This test receives a comination of a treat, name, and color. 
+  It starts at the welcome page and submits that form. 
+  On the resulting page, it enters the treat, name, and color into the form.
+  Uses `fill_field` b/c `input_into_field` doesn't clear the field b4 entering new value
+  It submits the form.
 
-    # :timer.sleep(1000)
+  """
+  @spec fill_and_submit(String.t,String.t,String.t) :: atom
+  def fill_and_submit(treat, name, color) do
 
-    # select treat from pull down 
-    script = "document.getElementById('input-treat').value = '#{treat}'"
-    execute_script(script)
-
-    input_name = find_element(:id, "input-name")
-    input_name |> fill_field(name)
-
-    id = "input-"<>color
-    element = find_element(:id, id)
-    click(element)
-
-    submit = find_element(:id, "submit-answers")
-    submit |> click()
-  end
-
-  def submit_place_form(place) do
     navigate_to(@index_url)
-
-    find_element(:id, "input-"<>place)
+    find_element(:id, "input-"<>default_place())
     |> click()
-
     find_element(:id, "submit_whereto")
     |> click()
+    assert current_url() == @form_url
+
+    # DEMO uncomment to demo
+    # :timer.sleep(1000)
+
+    # select value from pull down 
+    "document.getElementById('input-treat').value = '#{treat}'"
+    |> execute_script()
+    find_element(:id, "input-name")
+    |> fill_field(name)
+    find_element(:id, "input-"<>color)
+    |> click()
+    find_element(:id, "submit-answers")
+    |> click()
+
+    :ok
   end
 
 end

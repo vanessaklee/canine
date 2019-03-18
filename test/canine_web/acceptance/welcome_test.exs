@@ -10,10 +10,10 @@ defmodule CanineWeb.WelcomeTest do
   end
 
   @doc """
-  This test will send the user to the sign up age because no region has been set in the metadata
+  Test missing metadate affect on welcome page
   """
-  describe "welcomepage" do
-    test "Welcome page loads correctly", _meta do
+  describe "welcome" do
+    test "welcome page loads error correctly", _meta do
       navigate_to(@index_url)
 
       element = find_element(:id, "welcome")
