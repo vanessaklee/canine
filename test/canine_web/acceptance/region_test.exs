@@ -60,5 +60,4 @@ defmodule CanineWeb.RegionTest do
       end
     end
   end
-  
 end
